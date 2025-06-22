@@ -1,13 +1,50 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 39 15% 89%;
+    --foreground: 0 0% 15%;
+    --card: 39 15% 95%;
+    --card-foreground: 0 0% 15%;
+    --popover: 39 15% 95%;
+    --popover-foreground: 0 0% 15%;
+    --primary: 354 83% 65%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 142 20% 43%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 39 15% 85%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 87 26% 51%;
+    --accent-foreground: 0 0% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 39 15% 80%;
+    --input: 39 15% 80%;
+    --ring: 354 83% 65%;
+    --radius: 0.5rem;
+    --coral: 354 83% 65%;
+    --coral-light: 354 70% 75%;
+    --olive: 142 20% 43%;
+    --sage: 87 26% 51%;
+    --cream: 39 15% 89%;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.hero-pattern {
+  background-color: #ebe4da;
+  background-image: radial-gradient(circle at 25% 25%, #f68e8d 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, #f68e8d 0%, transparent 50%);
+  background-size: 100px 100px;
+  background-position: 0 0, 50px 50px;
 }
