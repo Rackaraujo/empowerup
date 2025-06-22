@@ -62,7 +62,7 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link to="/servicos" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/comunidade" className="text-muted-foreground hover:text-foreground transition-colors">
                   Comunidade
                 </Link>
               </li>
