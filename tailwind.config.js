@@ -60,9 +60,9 @@ const config = {
         },
         "coral-light": "#FFB3B3",
         olive: {
-          DEFAULT: "#4ECDC4",
-          light: "#7DD3CC",
-          dark: "#3BA99F",
+          DEFAULT: "#87A05F",
+          light: "#87A05F",
+          dark: "#627B5B",
         },
         sage: {
           DEFAULT: "#95E1D3",

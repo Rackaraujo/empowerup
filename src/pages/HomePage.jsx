@@ -69,7 +69,7 @@ export default function HomePage() {
       <SiteHeader />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="py-20 md:py-32 bg-cream">
+        <section className="py-8 md:py-16 bg-cream">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="space-y-4">
@@ -84,7 +84,7 @@ export default function HomePage() {
                   <Button asChild size="lg" className="bg-coral hover:bg-coral/90">
                     <Link to="/cadastro">Comece Gratuitamente</Link>
                   </Button>
-                  <Button asChild variant="outline" size="lg">
+                  <Button asChild variant="outline" size="lg" className="hover:text-white">
                     <Link to="/marketplace">Explorar Marketplace</Link>
                   </Button>
                 </div>
@@ -92,7 +92,7 @@ export default function HomePage() {
               <div className="flex items-center justify-center">
                 <div className="relative w-full max-w-[500px] aspect-square">
                   <img
-                    src="/placeholder.svg?height=500&width=500"
+                    src="/logo-sem-fundo.png?height=500&width=500"
                     alt="Mulheres empreendedoras"
                     className="rounded-lg object-cover w-full h-full"
                   />
@@ -278,7 +278,7 @@ export default function HomePage() {
                 <Button asChild size="lg" className="bg-white text-coral hover:bg-white/90">
                   <Link to="/cadastro">Cadastre-se Gratuitamente</Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+                <Button asChild variant="outline" size="lg" className="border-white hover:bg-white/10 hover:text-white">
                   <Link to="/sobre">Saiba Mais</Link>
                 </Button>
               </div>

@@ -15,32 +15,37 @@ export function SiteFooter() {
   }
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-background text-foreground border-t">
       <div className="container px-4 py-12 md:px-6">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Logo e Descrição */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2">
-              <span className="font-bold text-xl text-coral">EmpowerUp</span>
+              <img
+                    src="/logo-sem-fundo.png"
+                    width="170px"
+                    alt="Mulheres empreendedoras"
+                    
+                  />
             </Link>
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-muted-foreground">
               A plataforma que conecta mulheres empreendedoras com clientes, criando uma comunidade de apoio e
               crescimento mútuo.
             </p>
             <div className="flex space-x-4">
-              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white">
+              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
                 <Facebook className="h-4 w-4" />
                 <span className="sr-only">Facebook</span>
               </Button>
-              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white">
+              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
                 <Instagram className="h-4 w-4" />
                 <span className="sr-only">Instagram</span>
               </Button>
-              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white">
+              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
                 <Twitter className="h-4 w-4" />
                 <span className="sr-only">Twitter</span>
               </Button>
-              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white">
+              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
                 <Linkedin className="h-4 w-4" />
                 <span className="sr-only">LinkedIn</span>
               </Button>
@@ -52,27 +57,17 @@ export function SiteFooter() {
             <h3 className="text-lg font-semibold">Links Rápidos</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/marketplace" className="text-gray-300 hover:text-white transition-colors">
+                <Link to="/marketplace" className="text-muted-foreground hover:text-foreground transition-colors">
                   Marketplace
                 </Link>
               </li>
               <li>
-                <Link to="/servicos" className="text-gray-300 hover:text-white transition-colors">
-                  Serviços
+                <Link to="/servicos" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Comunidade
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="text-gray-300 hover:text-white transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link to="/recursos" className="text-gray-300 hover:text-white transition-colors">
-                  Recursos
-                </Link>
-              </li>
-              <li>
-                <Link to="/ajuda" className="text-gray-300 hover:text-white transition-colors">
+                <Link to="/ajuda" className="text-muted-foreground hover:text-foreground transition-colors">
                   Central de Ajuda
                 </Link>
               </li>
@@ -84,27 +79,27 @@ export function SiteFooter() {
             <h3 className="text-lg font-semibold">Empresa</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/sobre" className="text-gray-300 hover:text-white transition-colors">
+                <Link to="/sobre" className="text-muted-foreground hover:text-foreground transition-colors">
                   Sobre Nós
                 </Link>
               </li>
               <li>
-                <Link to="/contato" className="text-gray-300 hover:text-white transition-colors">
+                <Link to="/contato" className="text-muted-foreground hover:text-foreground transition-colors">
                   Contato
                 </Link>
               </li>
               <li>
-                <Link to="/termos" className="text-gray-300 hover:text-white transition-colors">
+                <Link to="/termos" className="text-muted-foreground hover:text-foreground transition-colors">
                   Termos de Uso
                 </Link>
               </li>
               <li>
-                <Link to="/privacidade" className="text-gray-300 hover:text-white transition-colors">
+                <Link to="/privacidade" className="text-muted-foreground hover:text-foreground transition-colors">
                   Política de Privacidade
                 </Link>
               </li>
               <li>
-                <Link to="/cookies" className="text-gray-300 hover:text-white transition-colors">
+                <Link to="/cookies" className="text-muted-foreground hover:text-foreground transition-colors">
                   Política de Cookies
                 </Link>
               </li>
@@ -114,7 +109,7 @@ export function SiteFooter() {
           {/* Newsletter */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Newsletter</h3>
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-muted-foreground">
               Receba dicas e novidades para empreendedoras diretamente no seu email.
             </p>
             <form onSubmit={handleNewsletterSubmit} className="space-y-2">
@@ -122,18 +117,18 @@ export function SiteFooter() {
                 name="email"
                 type="email"
                 placeholder="Seu email"
-                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-400"
+                className="bg-background border-input"
                 required
               />
-              <Button type="submit" className="w-full bg-coral hover:bg-coral/90">
+              <Button type="submit" className="w-full" style={{ backgroundColor: '#87A05F', '--tw-hover-opacity': 0.8 }}>
                 Inscrever-se
               </Button>
             </form>
           </div>
         </div>
 
-        <div className="mt-8 border-t border-gray-800 pt-8 text-center">
-          <p className="text-sm text-gray-300">
+        <div className="mt-8 border-t pt-8 text-center">
+          <p className="text-sm text-muted-foreground">
             © 2025 EmpowerUp. Todos os direitos reservados. Feito com ❤️ para mulheres empreendedoras.
           </p>
         </div>
