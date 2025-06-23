@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { SiteHeader } from "../components/site-header"
 import { SiteFooter } from "../components/site-footer"
 import { Button } from "../components/ui/button"
@@ -32,213 +32,91 @@ export default function ComunidadePage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [newPost, setNewPost] = useState("")
   const [selectedFilter, setSelectedFilter] = useState("todos")
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      autor: "Ana Silva",
-      username: "@ana_artesa",
-      avatar: "/placeholder.svg?height=40&width=40",
-      tempo: "2 horas atrás",
-      conteudo:
-        "Acabei de lançar minha nova coleção de bolsas artesanais! Muito feliz com o resultado 🎨✨ Cada peça foi feita com muito amor e dedicação. O que vocês acham?",
-      imagem: "/placeholder.svg?height=300&width=500",
-      likes: 24,
-      comentarios: 8,
-      compartilhamentos: 3,
-      categoria: "Novidades",
-      liked: false,
-      tags: ["#artesanato", "#bolsas", "#handmade"],
-    },
-    {
-      id: 2,
-      autor: "Maria Santos",
-      username: "@maria_empreende",
-      avatar: "/placeholder.svg?height=40&width=40",
-      tempo: "4 horas atrás",
-      conteudo:
-        "Dica para empreendedoras: sempre mantenham um bom relacionamento com seus clientes. A confiança é tudo! 💪 Respondam rapidamente, sejam transparentes e sempre entreguem mais do que prometem.",
-      likes: 18,
-      comentarios: 12,
-      compartilhamentos: 7,
-      categoria: "Dicas",
-      liked: true,
-      tags: ["#dicas", "#empreendedorismo", "#clientes"],
-    },
-    {
-      id: 3,
-      autor: "Carla Oliveira",
-      username: "@carla_sustentavel",
-      avatar: "/placeholder.svg?height=40&width=40",
-      tempo: "6 horas atrás",
-      conteudo:
-        "Participei de uma feira de artesanato hoje e foi incrível! Conheci outras empreendedoras maravilhosas e aprendi muito sobre sustentabilidade nos negócios. 🌱",
-      imagem: "/placeholder.svg?height=300&width=500",
-      likes: 31,
-      comentarios: 15,
-      compartilhamentos: 5,
-      categoria: "Eventos",
-      liked: false,
-      tags: ["#feira", "#sustentabilidade", "#networking"],
-    },
-    {
-      id: 4,
-      autor: "Juliana Costa",
-      username: "@ju_cosmeticos",
-      avatar: "/placeholder.svg?height=40&width=40",
-      tempo: "8 horas atrás",
-      conteudo:
-        "Receita caseira de hidratante labial natural! 🌿 Ingredientes: cera de abelha, óleo de coco, vitamina E. Super fácil de fazer e vende muito bem!",
-      likes: 42,
-      comentarios: 23,
-      compartilhamentos: 12,
-      categoria: "Receitas",
-      liked: true,
-      tags: ["#cosmeticos", "#natural", "#receita"],
-    },
-  ])
+  const [posts, setPosts] = useState([])
+  const [grupos, setGrupos] = useState([])
+  const [eventos, setEventos] = useState([])
+  const [topicosEmAlta, setTopicosEmAlta] = useState([])
+  function tempoDesde(data) {
+    const agora = new Date();
+    const postDate = new Date(data);
+    const diff = Math.floor((agora - postDate) / 1000); // diferença em segundos
 
-  const grupos = [
-    {
-      id: 1,
-      nome: "Artesãs Unidas",
-      membros: 1234,
-      descricao: "Grupo para artesãs compartilharem técnicas e experiências",
-      categoria: "Artesanato",
-      imagem: "/placeholder.svg?height=100&width=100",
-      ativo: true,
-      ultimaAtividade: "2 min atrás",
-    },
-    {
-      id: 2,
-      nome: "Empreendedoras Digitais",
-      membros: 856,
-      descricao: "Dicas e estratégias para vender online",
-      categoria: "Marketing Digital",
-      imagem: "/placeholder.svg?height=100&width=100",
-      ativo: true,
-      ultimaAtividade: "15 min atrás",
-    },
-    {
-      id: 3,
-      nome: "Sustentabilidade no Negócio",
-      membros: 642,
-      descricao: "Práticas sustentáveis para empreendedoras conscientes",
-      categoria: "Sustentabilidade",
-      imagem: "/placeholder.svg?height=100&width=100",
-      ativo: false,
-      ultimaAtividade: "1 hora atrás",
-    },
-    {
-      id: 4,
-      nome: "Mães Empreendedoras",
-      membros: 923,
-      descricao: "Equilibrando maternidade e empreendedorismo",
-      categoria: "Lifestyle",
-      imagem: "/placeholder.svg?height=100&width=100",
-      ativo: true,
-      ultimaAtividade: "30 min atrás",
-    },
-  ]
+    if (diff < 60) return `${diff} segundos atrás`;
+    if (diff < 3600) return `${Math.floor(diff / 60)} minutos atrás`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} horas atrás`;
+    return `${Math.floor(diff / 86400)} dias atrás`;
+  }
+  useEffect(() => {
+    const fetchData = async (url, setState, label) => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error(`Erro HTTP (${res.status}) ao carregar ${label}`);
+        }
+        const data = await res.json();
+        setState(data);
+      } catch (err) {
+        console.error(`Erro ao carregar ${label}:`, err);
+      }
+    };
 
-  const eventos = [
-    {
-      id: 1,
-      nome: "Workshop de Marketing Digital",
-      data: "2024-02-15",
-      horario: "19:00",
-      participantes: 45,
-      maxParticipantes: 50,
-      tipo: "Online",
-      preco: "Gratuito",
-      organizador: "Ana Silva",
-      descricao: "Aprenda estratégias de marketing digital para impulsionar seu negócio",
-      local: "Zoom",
-      categoria: "Educação",
-    },
-    {
-      id: 2,
-      nome: "Feira de Empreendedoras",
-      data: "2024-02-20",
-      horario: "09:00",
-      participantes: 120,
-      maxParticipantes: 200,
-      tipo: "Presencial",
-      preco: "R$ 25,00",
-      organizador: "Maria Santos",
-      descricao: "Grande feira com produtos de empreendedoras locais",
-      local: "Centro de Convenções - São Paulo",
-      categoria: "Feira",
-    },
-    {
-      id: 3,
-      nome: "Networking Feminino",
-      data: "2024-02-25",
-      horario: "18:30",
-      participantes: 78,
-      maxParticipantes: 100,
-      tipo: "Híbrido",
-      preco: "R$ 15,00",
-      organizador: "Carla Oliveira",
-      descricao: "Encontro para networking entre mulheres empreendedoras",
-      local: "Café Central + Online",
-      categoria: "Networking",
-    },
-  ]
+    fetchData("http://localhost/empowerup/api/posts/list.php", setPosts, "posts");
+    fetchData("http://localhost/empowerup/api/groups/list.php", setGrupos, "grupos");
+    fetchData("http://localhost/empowerup/api/events/list.php", setEventos, "eventos");
+    fetchData("http://localhost/empowerup/api/trending/list.php", setTopicosEmAlta, "tópicos em alta");
+  }, []);
 
-  const topicosEmAlta = [
-    { nome: "#MarketingDigital", posts: 1234, crescimento: "+15%" },
-    { nome: "#Sustentabilidade", posts: 856, crescimento: "+23%" },
-    { nome: "#ArtesanatoModerno", posts: 642, crescimento: "+8%" },
-    { nome: "#EmpreendedorismoFeminino", posts: 1567, crescimento: "+31%" },
-    { nome: "#VendaOnline", posts: 923, crescimento: "+12%" },
-    { nome: "#Networking", posts: 445, crescimento: "+19%" },
-  ]
-
-  const handleSearch = (e) => {
+   const handleSearch = (e) => {
     e.preventDefault()
     console.log("Buscar na comunidade:", searchTerm)
   }
-
   const handleLike = (postId) => {
-    setPosts(
-      posts.map((post) =>
+  fetch("http://localhost/empowerup/api/posts/like.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      post_id: postId,
+      user_id: 1, 
+    }),
+  })
+    .then(() => {
+      setPosts(posts.map(post =>
         post.id === postId
           ? {
               ...post,
               liked: !post.liked,
               likes: post.liked ? post.likes - 1 : post.likes + 1,
             }
-          : post,
-      ),
-    )
+          : post
+      ))
+    })
+    .catch(err => console.error("Erro ao curtir post:", err))
   }
-
-  const handleNewPost = () => {
+   const handleNewPost = () => {
     if (newPost.trim()) {
-      const novoPost = {
-        id: posts.length + 1,
-        autor: "Você",
-        username: "@voce",
-        avatar: "/placeholder.svg?height=40&width=40",
-        tempo: "agora",
-        conteudo: newPost,
-        likes: 0,
-        comentarios: 0,
-        compartilhamentos: 0,
-        categoria: "Geral",
-        liked: false,
-        tags: [],
-      }
-      setPosts([novoPost, ...posts])
-      setNewPost("")
+      fetch("http://localhost/empowerup/api/posts/create.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          autor_id: 1,
+          conteudo: newPost,
+          categoria: "Geral"
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          setNewPost("")
+          return fetch("http://localhost/empowerup/api/posts/list.php")
+        })
+        .then(res => res.json())
+        .then(data => setPosts(data))
+        .catch(err => console.error("Erro ao criar post:", err))
     }
   }
-
-  const filteredPosts = posts.filter((post) => {
+   const filteredPosts = posts.filter((post) => {
     if (selectedFilter === "todos") return true
-    return post.categoria.toLowerCase() === selectedFilter.toLowerCase()
+    return post.categoria?.toLowerCase() === selectedFilter.toLowerCase()
   })
-
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
       <SiteHeader />
@@ -252,8 +130,7 @@ export default function ComunidadePage() {
                   Comunidade EmpowerUp
                 </h1>
                 <p className="max-w-[800px] text-gray-700 md:text-xl/relaxed lg:text-2xl/relaxed">
-                  Conecte-se, compartilhe, cresça. Uma comunidade vibrante de mulheres empreendedoras transformando
-                  sonhos em realidade ✨
+                  Conecte-se, compartilhe, cresça. Uma comunidade vibrante de mulheres empreendedoras transformando sonhos em realidade ✨
                 </p>
               </div>
 
@@ -313,11 +190,11 @@ export default function ComunidadePage() {
               </TabsTrigger>
             </TabsList>
 
+            {/* Feed */}
             <TabsContent value="feed" className="mt-0">
               <div className="grid grid-cols-1 gap-8">
-                {/* Feed principal */}
+                {/* Criar Post */}
                 <div className="space-y-6 max-w-3xl mx-auto lg:max-w-none">
-                  {/* Criar post */}
                   <Card className="shadow-sm">
                     <CardContent className="p-6">
                       <div className="space-y-4">
@@ -363,7 +240,7 @@ export default function ComunidadePage() {
                     </CardContent>
                   </Card>
 
-                  {/* Posts */}
+                  {/* Posts List */}
                   <div className="space-y-6">
                     {filteredPosts.map((post) => (
                       <Card key={post.id} className="shadow-sm hover:shadow-md transition-shadow overflow-hidden">
@@ -383,7 +260,7 @@ export default function ComunidadePage() {
                                   <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                                     <span>{post.username}</span>
                                     <span>•</span>
-                                    <span>{post.tempo}</span>
+                                    <span>{tempoDesde(post.tempo_postagem)}</span>
                                   </div>
                                 </div>
                               </div>
@@ -427,7 +304,9 @@ export default function ComunidadePage() {
                                   variant="ghost"
                                   size="sm"
                                   onClick={() => handleLike(post.id)}
-                                  className={`${post.liked ? "text-red-500 hover:text-red-600" : "text-coral hover:text-coral/80"} transition-colors`}
+                                  className={`${
+                                    post.liked ? "text-red-500 hover:text-red-600" : "text-coral hover:text-coral/80"
+                                  } transition-colors`}
                                 >
                                   <Heart className={`mr-2 h-4 w-4 ${post.liked ? "fill-current" : ""}`} />
                                   {post.likes}
@@ -451,114 +330,10 @@ export default function ComunidadePage() {
                     ))}
                   </div>
                 </div>
-
-                {/* Sidebar - Vai para baixo em telas menores */}
-                <div className="space-y-6 lg:sticky lg:top-20">
-                  {/* Grupos sugeridos */}
-                  <Card className="shadow-sm">
-                    <CardHeader>
-                      <CardTitle className="text-lg flex items-center">
-                        <Users className="mr-2 h-5 w-5 text-coral" />
-                        Grupos Sugeridos
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {grupos.slice(0, 3).map((grupo) => (
-                        <div
-                          key={grupo.id}
-                          className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
-                        >
-                          <Avatar className="h-10 w-10">
-                            <AvatarImage src={grupo.imagem || "/placeholder.svg"} />
-                            <AvatarFallback className="bg-sage text-white">{grupo.nome.charAt(0)}</AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="font-medium truncate">{grupo.nome}</h4>
-                            <p className="text-sm text-muted-foreground">{grupo.membros} membros</p>
-                          </div>
-                          <Button size="sm" variant="outline" className="shrink-0">
-                            Participar
-                          </Button>
-                        </div>
-                      ))}
-                      <Button variant="ghost" className="w-full text-coral hover:text-coral/80">
-                        Ver todos os grupos
-                      </Button>
-                    </CardContent>
-                  </Card>
-
-                  {/* Próximos eventos */}
-                  <Card className="shadow-sm">
-                    <CardHeader>
-                      <CardTitle className="text-lg flex items-center">
-                        <Calendar className="mr-2 h-5 w-5 text-olive" />
-                        Próximos Eventos
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {eventos.slice(0, 2).map((evento) => (
-                        <div key={evento.id} className="space-y-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                          <div>
-                            <h4 className="font-medium">{evento.nome}</h4>
-                            <Badge variant="outline" className="mt-1">
-                              {evento.tipo}
-                            </Badge>
-                          </div>
-                          <div className="space-y-1 text-sm text-muted-foreground">
-                            <div className="flex items-center">
-                              <Calendar className="mr-2 h-3 w-3" />
-                              {evento.data} às {evento.horario}
-                            </div>
-                            <div className="flex items-center">
-                              <Users className="mr-2 h-3 w-3" />
-                              {evento.participantes} participantes
-                            </div>
-                            <div className="flex items-center">
-                              <MapPin className="mr-2 h-3 w-3" />
-                              {evento.local}
-                            </div>
-                          </div>
-                          <Button size="sm" className="w-full bg-olive hover:bg-olive/90">
-                            Participar
-                          </Button>
-                        </div>
-                      ))}
-                      <Button variant="ghost" className="w-full text-olive hover:text-olive/80">
-                        Ver todos os eventos
-                      </Button>
-                    </CardContent>
-                  </Card>
-
-                  {/* Estatísticas da comunidade */}
-                  <Card className="shadow-sm">
-                    <CardHeader>
-                      <CardTitle className="text-lg">Comunidade Ativa</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4 text-center">
-                        <div>
-                          <div className="text-2xl font-bold text-coral">2.5k</div>
-                          <div className="text-sm text-muted-foreground">Membros</div>
-                        </div>
-                        <div>
-                          <div className="text-2xl font-bold text-olive">156</div>
-                          <div className="text-sm text-muted-foreground">Online</div>
-                        </div>
-                        <div>
-                          <div className="text-2xl font-bold text-sage">89</div>
-                          <div className="text-sm text-muted-foreground">Posts hoje</div>
-                        </div>
-                        <div>
-                          <div className="text-2xl font-bold text-coral-light">12</div>
-                          <div className="text-sm text-muted-foreground">Eventos</div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
               </div>
             </TabsContent>
 
+            {/* Grupos */}
             <TabsContent value="grupos" className="mt-0">
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
@@ -577,9 +352,7 @@ export default function ComunidadePage() {
                           <div className="flex items-center space-x-3">
                             <Avatar className="h-16 w-16">
                               <AvatarImage src={grupo.imagem || "/placeholder.svg"} />
-                              <AvatarFallback className="bg-sage text-white text-lg">
-                                {grupo.nome.charAt(0)}
-                              </AvatarFallback>
+                              <AvatarFallback className="bg-sage text-white text-lg">{grupo.nome.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div className="flex-1">
                               <h3 className="font-semibold text-lg">{grupo.nome}</h3>
@@ -610,6 +383,7 @@ export default function ComunidadePage() {
               </div>
             </TabsContent>
 
+            {/* Eventos */}
             <TabsContent value="eventos" className="mt-0">
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
@@ -646,7 +420,7 @@ export default function ComunidadePage() {
                             </div>
                             <div className="flex items-center text-muted-foreground">
                               <Users className="mr-2 h-4 w-4" />
-                              {evento.participantes}/{evento.maxParticipantes} participantes
+                              {evento.participantes}/{evento.max_participantes} participantes
                             </div>
                           </div>
 
@@ -664,6 +438,7 @@ export default function ComunidadePage() {
               </div>
             </TabsContent>
 
+            {/* Tópicos em Alta */}
             <TabsContent value="trending" className="mt-0">
               <div className="space-y-6">
                 <div className="text-center space-y-2">
@@ -673,7 +448,10 @@ export default function ComunidadePage() {
 
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {topicosEmAlta.map((topico, index) => (
-                    <Card key={topico.nome} className="shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                    <Card
+                      key={topico.nome}
+                      className="shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                    >
                       <CardContent className="p-6">
                         <div className="space-y-4">
                           <div className="flex items-center justify-between">
@@ -706,7 +484,7 @@ export default function ComunidadePage() {
                   ))}
                 </div>
 
-                {/* Seção de insights */}
+                {/* Insights */}
                 <Card className="shadow-sm">
                   <CardHeader>
                     <CardTitle className="flex items-center">
@@ -733,7 +511,7 @@ export default function ComunidadePage() {
                           </div>
                         </div>
                       </div>
-
+        
                       <div className="space-y-4">
                         <h4 className="font-semibold">Horários de Pico</h4>
                         <div className="space-y-2">
